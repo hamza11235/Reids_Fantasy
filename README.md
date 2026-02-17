@@ -1,63 +1,70 @@
-# Reid's Fantasy: Data Extraction Pipeline
+# Reid's Fantasy
 
-This repository branch contains a cleaned and generalized data-extraction workflow for Reid's Fantasy style conifold-transition data.
+This project is a computational program around **conifold transitions of Calabi-Yau threefolds**.
 
-## What This Project Does
+## Big Picture
 
-The notebook builds structured, machine-usable data from Kreuzer-style text files (`Y.v06.txt` ... `Y.v27.txt`) and computes geometry on the small-resolution side with CYTools.
+The goal is to build a practical, data-driven view of the Reid's Fantasy network:
+- Start from toric/combinatorial descriptions of Calabi-Yau candidates.
+- Compute small-resolution-side and deformation-side invariants.
+- Assemble transition-aware datasets.
+- Train and test predictive models for geometric quantities and transition behavior.
 
-Main tasks:
-- Parse raw records (`pic`, `h12`, `E`, `H^3`, `c2H`, `sing`, toric headers, vertices)
-- Filter records (default: `sing=0`)
-- Recompute BK invariants (`dp`, `rk`, `sq`, `Lambda`)
-- Compute CY data (`h11`, `h21`, `chi`, intersection tensor, `c2` pairings)
-- Construct wall data in a rank-agnostic way for arbitrary Picard number
-- Export cleaned outputs and diagnostics
+In short: connect explicit geometry computations with statistical/ML modeling at scale.
 
-## Key File
+## Core Objectives
 
-- `/Users/hamzaahmed/Reids_Fantasy/Data_Extraction_cleaned.ipynb`
+1. Build reliable extraction pipelines from Kreuzer-style input files.
+2. Compute and validate key invariants (`h11`, `h21`, `dp`, `rk`, `sq`, intersection data, `c2` pairings).
+3. Construct wall/deformation-side data across varying Picard numbers.
+4. Produce reproducible datasets for downstream experiments.
+5. Evaluate predictive models (classification/regression) on extracted geometry features.
 
-## Included Artifacts
+## Project Components
 
-- `/Users/hamzaahmed/Reids_Fantasy/Example_Files/wall_data_sing0_pic1_to_2_cleaned_summary.csv`
-- `/Users/hamzaahmed/Reids_Fantasy/Example_Files/wall_data_sing0_pic1_to_2_cleaned_errors_errors.jsonl`
+The broader workspace includes three layers:
 
-## How To Run
+1. **Geometry & extraction notebooks**
+- Parse source files and construct structured records.
+- Compute CY data with CYTools and symbolic checks.
+- Export compact artifacts for modeling.
 
-1. Open `/Users/hamzaahmed/Reids_Fantasy/Data_Extraction_cleaned.ipynb`.
-2. In the config cell (`CFG`), set your range, especially:
-   - `min_picard`
-   - `max_picard`
-3. Run all cells top-to-bottom.
-4. Check summary/error outputs under `Example_Files/`.
+2. **Transition/invariant analysis**
+- Compare small-resolution and deformation-side descriptions.
+- Verify lattice/basis consistency and rank/saturation properties.
+- Study conifold-transition constraints empirically.
 
-## Config Notes
+3. **Modeling & experiments**
+- Build features from extracted geometry.
+- Train models (e.g. CatBoost-based workflows).
+- Track metrics and experiment outputs.
 
-Important knobs in `CFG`:
-- `max_picard`: highest Picard number to process
-- `require_sing0`: if `True`, only smoothable subset (`sing=0`)
-- `sample_size`: optional downsample for quick tests
-- `saturation_primes`: primes used for lattice saturation checks/fixes
+## Typical Workflow
 
-## Output Schema (High Level)
+1. Run data extraction / validation notebooks.
+2. Export cleaned records and summaries.
+3. Train and evaluate prediction models.
+4. Iterate on feature engineering and geometric constraints.
 
-Each output record has:
-- `meta`: source and header metadata
-- `xhat`: small-resolution side data (`h11`, `h21`, BK invariants, full `kappa`, full `c2` pairings)
-- `y`: restricted wall-side data in `Pic(Y)` basis (`kappa` and `c2` in reduced basis)
-- `checks`: consistency diagnostics
+## Current Branch Scope
+
+This branch (`codex/data-extraction-cleaned`) focuses on the cleaned, generalized extraction pipeline and selected outputs:
+- `Data_Extraction_cleaned.ipynb`
+- `Example_Files/wall_data_sing0_pic1_to_2_cleaned_summary.csv`
+- `Example_Files/wall_data_sing0_pic1_to_2_cleaned_errors_errors.jsonl`
 
 ## Dependencies
 
-Expected in your runtime environment:
+Common runtime requirements:
 - Python 3
+- Jupyter / ipykernel
 - `cytools`
 - `numpy`
 - `sympy`
 - `pandas`
-- Jupyter (`ipykernel`)
 
-## Branch Scope
+## Notes
 
-This branch is intentionally focused on the cleaned data-extraction workflow and selected outputs, not all local notebooks/artifacts.
+- The repository contains active research notebooks and generated artifacts.
+- Not every local experiment artifact is intended for version control.
+- Branches may focus on specific pipeline stages (extraction, validation, modeling) rather than the full workspace snapshot.
